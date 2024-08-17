@@ -3,6 +3,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package libraryv2;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -30,10 +34,10 @@ public class returnbook extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
-        jTextField4 = new javax.swing.JTextField();
+        bookfield = new javax.swing.JTextField();
+        studentField = new javax.swing.JTextField();
+        issueDateField = new javax.swing.JTextField();
+        dueDateField = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
@@ -60,21 +64,21 @@ public class returnbook extends javax.swing.JFrame {
         jLabel4.setText("Due Date");
         getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(164, 247, 77, -1));
 
-        jTextField1.setBackground(new java.awt.Color(255, 255, 204));
-        jTextField1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        getContentPane().add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(278, 92, 176, -1));
+        bookfield.setBackground(new java.awt.Color(255, 255, 204));
+        bookfield.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        getContentPane().add(bookfield, new org.netbeans.lib.awtextra.AbsoluteConstraints(278, 92, 176, -1));
 
-        jTextField2.setBackground(new java.awt.Color(255, 255, 204));
-        jTextField2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        getContentPane().add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(278, 142, 176, -1));
+        studentField.setBackground(new java.awt.Color(255, 255, 204));
+        studentField.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        getContentPane().add(studentField, new org.netbeans.lib.awtextra.AbsoluteConstraints(278, 142, 176, -1));
 
-        jTextField3.setBackground(new java.awt.Color(255, 255, 204));
-        jTextField3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        getContentPane().add(jTextField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(278, 196, 176, -1));
+        issueDateField.setBackground(new java.awt.Color(255, 255, 204));
+        issueDateField.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        getContentPane().add(issueDateField, new org.netbeans.lib.awtextra.AbsoluteConstraints(278, 196, 176, -1));
 
-        jTextField4.setBackground(new java.awt.Color(255, 255, 204));
-        jTextField4.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        getContentPane().add(jTextField4, new org.netbeans.lib.awtextra.AbsoluteConstraints(278, 247, 176, -1));
+        dueDateField.setBackground(new java.awt.Color(255, 255, 204));
+        dueDateField.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        getContentPane().add(dueDateField, new org.netbeans.lib.awtextra.AbsoluteConstraints(278, 247, 176, -1));
 
         jButton1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resources/search.png"))); // NOI18N
@@ -84,6 +88,11 @@ public class returnbook extends javax.swing.JFrame {
         jButton2.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resources/save-icon--1.png"))); // NOI18N
         jButton2.setText("SAVE");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
         getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(251, 323, -1, -1));
 
         jButton3.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
@@ -110,6 +119,32 @@ public class returnbook extends javax.swing.JFrame {
        homepageframe.setLocationRelativeTo(null);
        //this.dispose();
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            java.sql.Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/libmgmtsys", "root", "1234567890");
+            String query = "INSERT INTO returnTable (studentId, bookId,issueDate,dueDate ) VALUES (?, ?, ?, ?)";
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setString(1, studentField.getText());
+            ps.setString(2, bookfield.getText());
+
+            ps.setString(3, issueDateField.getText());
+
+            ps.setString(4, dueDateField.getText());
+
+            // Execute the query
+            int rowsAffected = ps.executeUpdate();
+            if (rowsAffected > 0) {
+
+                JOptionPane.showMessageDialog(this, "Book Registered Successfully!", "Book Info", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                System.out.println("Error: Book registration failed.");
+            }
+        } catch (ClassNotFoundException | SQLException e) {
+            System.out.print(e);
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -147,6 +182,9 @@ public class returnbook extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField bookfield;
+    private javax.swing.JTextField dueDateField;
+    private javax.swing.JTextField issueDateField;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
@@ -155,9 +193,6 @@ public class returnbook extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
+    private javax.swing.JTextField studentField;
     // End of variables declaration//GEN-END:variables
 }

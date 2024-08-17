@@ -1,4 +1,9 @@
 package libraryv2;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import javax.swing.*;
 
 /*
@@ -29,8 +34,8 @@ public class login extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jPasswordField1 = new javax.swing.JPasswordField();
+        usernameField = new javax.swing.JTextField();
+        passwordField = new javax.swing.JPasswordField();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
@@ -48,11 +53,11 @@ public class login extends javax.swing.JFrame {
         jLabel2.setText("Password:");
         getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 350, 79, -1));
 
-        jTextField1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        getContentPane().add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 310, 250, -1));
+        usernameField.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        getContentPane().add(usernameField, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 310, 250, -1));
 
-        jPasswordField1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        getContentPane().add(jPasswordField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 370, 250, -1));
+        passwordField.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        getContentPane().add(passwordField, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 370, 250, -1));
 
         jButton1.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resources/login (1).png"))); // NOI18N
@@ -82,13 +87,42 @@ public class login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-       //System.out.println("user clicked button");
-       Homepage homepageframe = new Homepage();
-       homepageframe.setVisible(true);
-       homepageframe.pack();
-       homepageframe.setLocationRelativeTo(null);
-       this.dispose();
+
+        char[] password = passwordField.getPassword();
+        
+           char[] enteredPassword = passwordField.getPassword();
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/libmgmtsys", "root", "1234567890");
+            String query = "SELECT * FROM users WHERE username = ? AND password = ?";
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setString(1, usernameField.getText());
+            ps.setString(2, new String(enteredPassword));
+            ResultSet resultSet = ps.executeQuery();
+            
+            // Move the cursor to the first row
+            if (resultSet.next()) {
+                // User credentials match
+                JOptionPane.showMessageDialog(null, "Login Successful!", "Login Info", JOptionPane.INFORMATION_MESSAGE);
+                
+                Homepage homeScreen = new Homepage();
+                homeScreen.setVisible(true);
+                this.dispose();
+                
+            } else {
+                // User credentials didn't match
+                JOptionPane.showMessageDialog(null, "Username and password didn't match.", "Login Info", JOptionPane.ERROR_MESSAGE);
+            }
+            // Close resources
+            resultSet.close();
+            ps.close();
+            conn.close();
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
+        
+        
+       
        
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -140,7 +174,7 @@ public class login extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JPasswordField jPasswordField1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JPasswordField passwordField;
+    private javax.swing.JTextField usernameField;
     // End of variables declaration//GEN-END:variables
 }
