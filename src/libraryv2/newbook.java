@@ -4,13 +4,15 @@
  */
 package libraryv2;
 
+import javax.swing.JOptionPane;
+import java.sql.*;
+
 /**
  *
  * @author yubra
  */
 public class newbook extends javax.swing.JFrame {
 
-  
     public newbook() {
         initComponents();
     }
@@ -29,11 +31,11 @@ public class newbook extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
-        jTextField4 = new javax.swing.JTextField();
-        jTextField5 = new javax.swing.JTextField();
+        bookIdField = new javax.swing.JTextField();
+        nameField = new javax.swing.JTextField();
+        publisherField = new javax.swing.JTextField();
+        yearField = new javax.swing.JTextField();
+        publishedYearField = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
@@ -63,34 +65,39 @@ public class newbook extends javax.swing.JFrame {
         jLabel5.setText("Publisher Year");
         getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(162, 296, 88, -1));
 
-        jTextField1.setBackground(new java.awt.Color(255, 255, 204));
-        jTextField1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        getContentPane().add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(282, 76, 209, -1));
+        bookIdField.setBackground(new java.awt.Color(255, 255, 204));
+        bookIdField.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        getContentPane().add(bookIdField, new org.netbeans.lib.awtextra.AbsoluteConstraints(282, 76, 209, -1));
 
-        jTextField2.setBackground(new java.awt.Color(255, 255, 204));
-        jTextField2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jTextField2.addActionListener(new java.awt.event.ActionListener() {
+        nameField.setBackground(new java.awt.Color(255, 255, 204));
+        nameField.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        nameField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2ActionPerformed(evt);
+                nameFieldActionPerformed(evt);
             }
         });
-        getContentPane().add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(282, 125, 209, -1));
+        getContentPane().add(nameField, new org.netbeans.lib.awtextra.AbsoluteConstraints(282, 125, 209, -1));
 
-        jTextField3.setBackground(new java.awt.Color(255, 255, 204));
-        jTextField3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        getContentPane().add(jTextField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(282, 175, 209, -1));
+        publisherField.setBackground(new java.awt.Color(255, 255, 204));
+        publisherField.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        getContentPane().add(publisherField, new org.netbeans.lib.awtextra.AbsoluteConstraints(282, 175, 209, -1));
 
-        jTextField4.setBackground(new java.awt.Color(255, 255, 204));
-        jTextField4.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        getContentPane().add(jTextField4, new org.netbeans.lib.awtextra.AbsoluteConstraints(282, 233, 209, -1));
+        yearField.setBackground(new java.awt.Color(255, 255, 204));
+        yearField.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        getContentPane().add(yearField, new org.netbeans.lib.awtextra.AbsoluteConstraints(282, 233, 209, -1));
 
-        jTextField5.setBackground(new java.awt.Color(255, 255, 204));
-        jTextField5.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        getContentPane().add(jTextField5, new org.netbeans.lib.awtextra.AbsoluteConstraints(282, 293, 209, -1));
+        publishedYearField.setBackground(new java.awt.Color(255, 255, 204));
+        publishedYearField.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        getContentPane().add(publishedYearField, new org.netbeans.lib.awtextra.AbsoluteConstraints(282, 293, 209, -1));
 
         jButton1.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resources/save-icon--1.png"))); // NOI18N
         jButton1.setText("SAVE");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
         getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(235, 361, -1, -1));
 
         jButton2.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
@@ -109,18 +116,49 @@ public class newbook extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
+    private void nameFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nameFieldActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2ActionPerformed
+    }//GEN-LAST:event_nameFieldActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-       Homepage homepageframe = new Homepage();
-       homepageframe.setVisible(true);
-       homepageframe.pack();
-       homepageframe.setLocationRelativeTo(null);
-       //this.dispose();
+        Homepage homepageframe = new Homepage();
+        homepageframe.setVisible(true);
+        homepageframe.pack();
+        homepageframe.setLocationRelativeTo(null);
+        //this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {                                         
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            java.sql.Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/libmgmtsys", "root", "1234567890");
+            String query = "INSERT INTO book (bookid, bookName,publisher,year,publishedYear ) VALUES (?, ?, ?, ?, ?)";
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setString(1, bookIdField.getText());
+            ps.setString(2, nameField.getText());
+
+            ps.setString(3, publisherField.getText());
+
+            ps.setString(4, yearField.getText());
+
+            ps.setString(5, publishedYearField.getText());
+
+            // Execute the query
+            int rowsAffected = ps.executeUpdate();
+            if (rowsAffected > 0) {
+
+                JOptionPane.showMessageDialog(this, "Book Registered Successfully!", "Book Info", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                System.out.println("Error: Book registration failed.");
+            }
+        } catch (ClassNotFoundException | SQLException e) {
+            System.out.print(e);
+        }
+
+    }
+
+  
 
     /**
      * @param args the command line arguments
@@ -158,6 +196,7 @@ public class newbook extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField bookIdField;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
@@ -166,10 +205,9 @@ public class newbook extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
+    private javax.swing.JTextField nameField;
+    private javax.swing.JTextField publishedYearField;
+    private javax.swing.JTextField publisherField;
+    private javax.swing.JTextField yearField;
     // End of variables declaration//GEN-END:variables
 }

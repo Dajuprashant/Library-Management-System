@@ -4,6 +4,11 @@
  */
 package libraryv2;
 
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author yubra
@@ -29,11 +34,11 @@ public class newstudent extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jComboBox2 = new javax.swing.JComboBox<>();
+        studentField = new javax.swing.JTextField();
+        studentNameField = new javax.swing.JTextField();
+        fatherNameField = new javax.swing.JTextField();
+        coursenameComboBox = new javax.swing.JComboBox<>();
+        branchCombobox = new javax.swing.JComboBox<>();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
@@ -64,27 +69,27 @@ public class newstudent extends javax.swing.JFrame {
         jLabel5.setText("Branch");
         getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(169, 274, 90, -1));
 
-        jTextField1.setBackground(new java.awt.Color(255, 255, 204));
-        jTextField1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        getContentPane().add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(292, 83, 199, -1));
+        studentField.setBackground(new java.awt.Color(255, 255, 204));
+        studentField.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        getContentPane().add(studentField, new org.netbeans.lib.awtextra.AbsoluteConstraints(292, 83, 199, -1));
 
-        jTextField2.setBackground(new java.awt.Color(255, 255, 204));
-        jTextField2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        getContentPane().add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(292, 133, 199, -1));
+        studentNameField.setBackground(new java.awt.Color(255, 255, 204));
+        studentNameField.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        getContentPane().add(studentNameField, new org.netbeans.lib.awtextra.AbsoluteConstraints(292, 133, 199, -1));
 
-        jTextField3.setBackground(new java.awt.Color(255, 255, 204));
-        jTextField3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        getContentPane().add(jTextField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(292, 184, 199, -1));
+        fatherNameField.setBackground(new java.awt.Color(255, 255, 204));
+        fatherNameField.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        getContentPane().add(fatherNameField, new org.netbeans.lib.awtextra.AbsoluteConstraints(292, 184, 199, -1));
 
-        jComboBox1.setBackground(new java.awt.Color(255, 255, 204));
-        jComboBox1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "B.Tech", " " }));
-        getContentPane().add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(292, 229, 199, -1));
+        coursenameComboBox.setBackground(new java.awt.Color(255, 255, 204));
+        coursenameComboBox.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        coursenameComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "B.Tech", "Bsc Hons" }));
+        getContentPane().add(coursenameComboBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(292, 229, 199, -1));
 
-        jComboBox2.setBackground(new java.awt.Color(255, 255, 204));
-        jComboBox2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "CSE", "IT", "MECHANICAL", "CIVIL", " " }));
-        getContentPane().add(jComboBox2, new org.netbeans.lib.awtextra.AbsoluteConstraints(292, 274, 199, -1));
+        branchCombobox.setBackground(new java.awt.Color(255, 255, 204));
+        branchCombobox.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        branchCombobox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "CSE", "IT", "MECHANICAL", "CIVIL", " " }));
+        getContentPane().add(branchCombobox, new org.netbeans.lib.awtextra.AbsoluteConstraints(292, 274, 199, -1));
 
         jButton1.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resources/save-icon--1.png"))); // NOI18N
@@ -115,6 +120,31 @@ public class newstudent extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+         try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            java.sql.Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/libmgmtsys", "root", "1234567890");
+            String query = "INSERT INTO newStudent (studentID, studentname,fatherName,courseName,branch ) VALUES (?, ?, ?, ?, ?)";
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setString(1, studentField.getText());
+            ps.setString(2, studentNameField.getText());
+
+            ps.setString(3, fatherNameField.getText());
+
+            ps.setString(4, (String) coursenameComboBox.getSelectedItem());
+
+            ps.setString(5, (String) branchCombobox.getSelectedItem());
+
+            // Execute the query
+            int rowsAffected = ps.executeUpdate();
+            if (rowsAffected > 0) {
+
+                JOptionPane.showMessageDialog(this, "Book Registered Successfully!", "Book Info", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                System.out.println("Error: Book registration failed.");
+            }
+        } catch (ClassNotFoundException | SQLException e) {
+            System.out.print(e);
+        }
        
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -163,10 +193,11 @@ public class newstudent extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> branchCombobox;
+    private javax.swing.JComboBox<String> coursenameComboBox;
+    private javax.swing.JTextField fatherNameField;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -174,8 +205,7 @@ public class newstudent extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
+    private javax.swing.JTextField studentField;
+    private javax.swing.JTextField studentNameField;
     // End of variables declaration//GEN-END:variables
 }
