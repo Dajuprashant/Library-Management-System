@@ -40,6 +40,7 @@ public class issuebook extends javax.swing.JFrame {
         studentField = new javax.swing.JTextField();
         jTextField4 = new javax.swing.JTextField();
         issueDateField = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocation(new java.awt.Point(325, 125));
@@ -101,6 +102,9 @@ public class issuebook extends javax.swing.JFrame {
         issueDateField.setBackground(new java.awt.Color(255, 255, 204));
         issueDateField.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         getContentPane().add(issueDateField, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 210, 216, -1));
+
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resources/123456.png"))); // NOI18N
+        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -191,6 +195,7 @@ public class issuebook extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField studentField;
     // End of variables declaration//GEN-END:variables
